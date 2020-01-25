@@ -54,6 +54,49 @@ int main()
     FunctionInfo f(1, {}, "greets");
 }
 ```
+
+So now, imagine I have a function which return multiple parameter, how am I gonna catch'em ?
+Good question, let's find out !
+
+Let's pretend I have the following function in Lua:
+```lua
+function returnTypes(a)
+    return a, "2", true, 4.5
+end
+```
+
+```cpp
+#include "Lua.hpp"
+
+int main()
+{
+    // ... Lua initialization
+
+    std::vector<std::string> returnTypes{"x", "c", "b", "d"};
+    FunctionInfo f(1, returnTypes, "returnTypes");
+
+    // ... function call
+}
+```
+
+In FunctionInfo's constructor the second parameter is a list of single character. Each character
+represent a type and they are put in the same order as the Lua function is going to return its values.
+
+"Which means ?!"
+
+Which means that in this case, our function return an integer, then a string, then a boolean and finally a double.
+
+Character | C++ type
+----------|--------------
+"x"       | long long
+"c"       | const char *
+"b"       | bool
+"d"       | double
+
+Every integer is passed and returned as a C++ `long long`.
+
+Every floating point number is passed and returned as a C++ `double`.
+
 To call the function, see below.
 
 ### Calling the function
