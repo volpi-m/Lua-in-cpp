@@ -85,6 +85,9 @@ represent a type and they are put in the same order as the Lua function is going
 "Which means ?!"
 
 Which means that in this case, our function return an integer, then a string, then a boolean and finally a double.
+You want to return a `double` then an `int`, your vector should looks like this : `{"d", "x"}`
+
+Here is a table to summarize:
 
 Character | C++ type
 ----------|--------------
