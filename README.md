@@ -1,3 +1,7 @@
+# THIS REPOSITORY IS CURRENTLY BEING REWORKED
+
+Use at your own risks
+
 # C++ encapsulation of Lua's C API (the function calling part)
 
 With this only `Lua.hpp` file, you can call basic functions from a Lua script in your C++ code, not all functions however.
