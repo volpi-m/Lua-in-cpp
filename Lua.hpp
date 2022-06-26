@@ -22,8 +22,8 @@ public:
     void reset(); // reset the internal state, create a new one
     bool loadFile(const std::string &); // load a .lua file
     bool execFile(const std::string &); // load and run a .lua file
-    void loadScript(const std::string &) const; // load a string of lua
-    void execScript(const std::string &) const; // load and run a string of lua
+    bool loadScript(const std::string &) const; // load a string of lua
+    bool execScript(const std::string &) const; // load and run a string of lua
 
     void callLuaFunction(const std::string &); // call a lua function in C++
 

@@ -27,7 +27,16 @@ void Lua::reset()
 
 bool Lua::loadFile(const std::string &filename)
 {
-    if (luaL_dofile(_state, filename.c_str()) != LUA_OK) {
+    if (luaL_loadfile(_state, filename.c_str()) != LUA_OK) {
+        std::cerr << lua_tostring(_state, -1); << std::endl;
+        return false;
+    }
+    return true;
+}
+
+bool Lua::execFile(const std::string &filename)
+{
+    if (luaL_loadfile(_state, filename.c_str()) != LUA_OK) {
         _error = lua_tostring(_state, -1);
         std::cerr << _error << std::endl;
         return false;
@@ -35,11 +44,22 @@ bool Lua::loadFile(const std::string &filename)
     return true;
 }
 
-void Lua::execScript(const std::string &script) const
+bool Lua::loadScript(const std::string &script) const
+{
+    if (luaL_loadstring(_state, script.c_str()) != LUA_OK) {
+        std::cerr << lua_tostring(_state, -1);
+        return false;
+    }
+    return true;
+}
+
+bool Lua::execScript(const std::string &script) const
 {
     if (luaL_dostring(_state, script.c_str()) != LUA_OK) {
         std::cerr << lua_tostring(_state, -1);
+        return false;
     }
+    return true;
 }
 
 void Lua::callLuaFunction(const std::string &name)

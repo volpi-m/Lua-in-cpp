@@ -1,7 +1,7 @@
 BIN_TEST	=	test
 
 SRC_TEST	=	main.cpp\
-				newLua.cpp
+				Lua.cpp
 
 OBJ_TEST	=	$(SRC_TEST:.cpp=.o)
 
