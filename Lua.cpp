@@ -1,4 +1,4 @@
-#include "newLua.hpp"
+#include "Lua.hpp"
 
 Lua::Lua()
 {
