@@ -27,16 +27,7 @@ void Lua::reset()
 
 bool Lua::loadFile(const std::string &filename)
 {
-    if (luaL_loadfile(_state, filename.c_str()) != LUA_OK) {
-        std::cerr << lua_tostring(_state, -1) << std::endl;
-        return false;
-    }
-    return true;
-}
-
-bool Lua::execFile(const std::string &filename)
-{
-    if (luaL_loadfile(_state, filename.c_str()) != LUA_OK) {
+    if (luaL_dofile(_state, filename.c_str()) != LUA_OK) {
         std::cerr << lua_tostring(_state, -1) << std::endl;
         return false;
     }
@@ -45,26 +36,70 @@ bool Lua::execFile(const std::string &filename)
 
 bool Lua::loadScript(const std::string &script) const
 {
-    if (luaL_loadstring(_state, script.c_str()) != LUA_OK) {
+    if (luaL_dostring(_state, script.c_str()) != LUA_OK) {
         std::cerr << lua_tostring(_state, -1) << std::endl;;
         return false;
     }
     return true;
 }
 
-bool Lua::execScript(const std::string &script) const
+void Lua::add(const std::string &name, lua_CFunction f, const std::string &modName)
 {
-    if (luaL_dostring(_state, script.c_str()) != LUA_OK) {
-        std::cerr << lua_tostring(_state, -1);
+    if (modName == "") {
+        lua_pushcfunction(_state, f);
+        lua_setglobal(_state, name.c_str());
+    } else {
+        lua_getglobal(_state, modName.c_str()); // get a name on the stack (may be a new or existing table)
+        if (!lua_istable(_state, -1)) // create a table if it is not already
+            lua_newtable(_state);
+        lua_pushstring(_state, name.c_str()); // index of the value in the table
+        lua_pushcfunction(_state, f); // value to be set
+        lua_settable(_state, -3);
+        // modName.name = f
+        lua_setglobal(_state, modName.c_str()); // say that the table is now an accessible variable
+    }
+}
+
+void Lua::add(const std::string &name, lua_Number n, const std::string &modName)
+{
+    if (modName == "") {
+        lua_pushnumber(_state, n);
+        lua_setglobal(_state, name.c_str());
+    } else {
+        lua_getglobal(_state, modName.c_str());
+        if (!lua_istable(_state, -1))
+            lua_newtable(_state);
+        lua_pushstring(_state, name.c_str());
+        lua_pushnumber(_state, n);
+        lua_settable(_state, -3);
+        lua_setglobal(_state, modName.c_str());
+    }
+}
+
+void Lua::add(const std::string &name, lua_Integer i, const std::string &modName)
+{
+    if (modName == "") {
+        lua_pushinteger(_state, i);
+        lua_setglobal(_state, name.c_str());
+    } else {
+        lua_getglobal(_state, modName.c_str());
+        if (!lua_istable(_state, -1))
+            lua_newtable(_state);
+        lua_pushstring(_state, name.c_str());
+        lua_pushinteger(_state, i);
+        lua_settable(_state, -3);
+        lua_setglobal(_state, modName.c_str());
+    }
+}
+
+bool Lua::call(const std::string &name)
+{
+    lua_getglobal(_state, name.c_str());
+    if (lua_pcall(_state, 0, 0, 0) != LUA_OK) {
+        std::cerr << lua_tostring(_state, -1) << std::endl;
         return false;
     }
     return true;
-}
-
-void Lua::callLuaFunction(const std::string &name)
-{
-    lua_getglobal(_state, name.c_str());
-    lua_call(_state, 0, 0);
 }
 
 /*

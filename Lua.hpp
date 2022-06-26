@@ -19,11 +19,13 @@ public:
     void openLibs() const; // open lua libraries
     void reset(); // reset the internal state, create a new one
     bool loadFile(const std::string &); // load a .lua file
-    bool execFile(const std::string &); // load and run a .lua file
     bool loadScript(const std::string &) const; // load a string of lua
-    bool execScript(const std::string &) const; // load and run a string of lua
 
-    void callLuaFunction(const std::string &); // call a lua function in C++
+    void add(const std::string &, lua_CFunction, const std::string & = "");
+    void add(const std::string &, lua_Number, const std::string & = "");
+    void add(const std::string &, lua_Integer, const std::string & = "");
+
+    bool call(const std::string &); // call a lua function in C++
 
 private:
     lua_State *_state;
