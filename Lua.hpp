@@ -24,6 +24,8 @@ public:
     void add(const std::string &, lua_CFunction, const std::string & = "");
     void add(const std::string &, lua_Number, const std::string & = "");
     void add(const std::string &, lua_Integer, const std::string & = "");
+    void add(const std::string &, const char *, const std::string & = "");
+    void add(const std::string &, void *, const std::string & = "");
 
     bool call(const std::string &); // call a lua function in C++
 
