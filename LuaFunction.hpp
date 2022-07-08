@@ -35,7 +35,7 @@ protected:
     void intern(U arg, InternArgs... args)
     {
         _nbArg++;
-        std::cout << "arg: " << arg << std::endl;
+        //std::cout << "arg: " << arg << std::endl;
         pushOnStack(_inst, arg);
         intern(args...);
     }
@@ -44,7 +44,7 @@ protected:
     void intern(U arg)
     {
         _nbArg++;
-        std::cout << "final arg: " << arg << std::endl;
+        //std::cout << "final arg: " << arg << std::endl;
         pushOnStack(_inst, arg);
         lua_call(getState(_inst), _nbArg, 1);
     }
