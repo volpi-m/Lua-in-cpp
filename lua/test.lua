@@ -7,7 +7,7 @@ function greets(name)
 end
 
 function printBoth(a, b)
-    print(a,b)
+    print("[Lua] "..a.." "..b)
 end
 
 function nope()

@@ -6,11 +6,11 @@
 
 #include "Lua.hpp"
 
-template< std::size_t ret, class >
+template< class >
 class LuaFunction;
 
-template< std::size_t ret, typename T, typename ...Args>
-class LuaFunction < ret, T(Args...)>
+template< typename T, typename ...Args>
+class LuaFunction < T(Args...)>
 {
 public:
     LuaFunction(Lua &l, const std::string &fname) :
@@ -23,11 +23,9 @@ public:
     {
         lua_getglobal(getState(_inst), _fname.c_str());
         intern(args...);
-        if (ret != 0) {
-            int a = lua_tointeger(getState(_inst), -1);
-            lua_pop(getState(_inst), 1);
-            return a;
-        }
+        int a = lua_tointeger(getState(_inst), -1);
+        lua_pop(getState(_inst), 1);
+        return a;
     }
 
 protected:
@@ -37,7 +35,7 @@ protected:
     void intern(U arg, InternArgs... args)
     {
         _nbArg++;
-        //std::cout << "arg: " << arg << std::endl;
+        std::cout << "arg: " << arg << std::endl;
         pushOnStack(_inst, arg);
         intern(args...);
     }
@@ -46,9 +44,9 @@ protected:
     void intern(U arg)
     {
         _nbArg++;
-        //std::cout << "final arg: " << arg << std::endl;
+        std::cout << "final arg: " << arg << std::endl;
         pushOnStack(_inst, arg);
-        lua_call(getState(_inst), _nbArg, ret);
+        lua_call(getState(_inst), _nbArg, 1);
     }
 
     Lua &_inst;
@@ -57,29 +55,17 @@ protected:
 };
 
 template< class ...Args >
-class Function : public LuaFunction<0, void(Args...)>
+class VoidFunction : public LuaFunction<void(Args...)>
 {
 public:
-    Function(Lua &l, const std::string &fname) :
-        LuaFunction<0, void(Args...)>(l, fname)
+    VoidFunction(Lua &l, const std::string &fname) :
+        LuaFunction<void(Args...)>(l, fname)
     {}
 
     void operator()(Args... args)
     {
-        intern(args...);
-    }
-
-    template< class T >
-    void intern(T arg)
-    {
-        std::cout << "final arg: " << arg << std::endl;
-    }
-
-    template< class T, class ...InternArgs >
-    void intern(T arg, InternArgs... args)
-    {
-        std::cout << "arg: " << arg << std::endl;
-        intern(args...);
+        lua_getglobal(getState(this->_inst), this->_fname.c_str());
+        this->intern(args...);
     }
 };
 

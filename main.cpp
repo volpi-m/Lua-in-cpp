@@ -25,15 +25,15 @@ int main()
     l.add("blue", (lua_Integer) 2);
     if (l.loadFile("lua/test.lua")) {
         //l.call("main");
-        l.call("hello");
+        //l.call("hello");
     }
 
-    Function<const char *> greets(l, "greets");
+    VoidFunction<const char *> greets(l, "greets");
     greets("Gandalf");
 
-    Function<const char *, int>printBoth(l, "printBoth");
+    VoidFunction<const char *, lua_Integer>printBoth(l, "printBoth");
     printBoth("Nope", 42);
 
-    LuaFunction<1, lua_Integer(lua_Integer, lua_Integer)> addF(l, "add");
+    LuaFunction<lua_Integer(lua_Integer, lua_Integer)> addF(l, "add");
     std::cout << addF(1, 2) << std::endl;
 }
