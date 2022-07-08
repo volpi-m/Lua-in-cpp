@@ -1,13 +1,22 @@
 function hello()
-    print("Hello World")
+    print("[Lua] Hello World")
 end
 
 function greets(name)
-    print("Hello "..name)
+    print("[Lua] Hello "..name)
+end
+
+function printBoth(a, b)
+    print(a,b)
 end
 
 function nope()
     return 1, 2
+end
+
+function add(nb1, nb2)
+    print("[Lua] add "..nb1.." "..nb2)
+    return nb1 + nb2
 end
 
 function dump(o)
@@ -26,6 +35,7 @@ function dump(o)
 function main()
     hello()
     greets("Frodo")
+    yeet._yeet()
     a, b = nope()
     print(a, b)
 end
