@@ -2,14 +2,13 @@
 
 #include <iostream>
 #include <string>
-#include <exception>
 
 #include "Lua.hpp"
 
 template< class >
 class LuaFunction;
 
-template< typename T, typename ...Args>
+template< typename T, typename ...Args >
 class LuaFunction < T(Args...)>
 {
 public:
@@ -53,19 +52,3 @@ protected:
     const std::string _fname;
     int _nbArg;
 };
-
-template< class ...Args >
-class VoidFunction : public LuaFunction<void(Args...)>
-{
-public:
-    VoidFunction(Lua &l, const std::string &fname) :
-        LuaFunction<void(Args...)>(l, fname)
-    {}
-
-    void operator()(Args... args)
-    {
-        lua_getglobal(getState(this->_inst), this->_fname.c_str());
-        this->intern(args...);
-    }
-};
-

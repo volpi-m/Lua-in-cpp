@@ -1,5 +1,6 @@
 #include "Lua.hpp"
 #include "LuaFunction.hpp"
+#include "VoidFunction.hpp"
 
 int _func([[maybe_unused]] lua_State *l)
 {
