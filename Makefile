@@ -2,8 +2,10 @@ BIN_TEST	=	yeet
 
 SRC_TEST	=	main.cpp\
 				Lua.cpp\
-				LuaFunction.cpp\
-				VoidFunction.cpp
+				BaseFunction.cpp\
+				VoidFunction.cpp\
+				NonVoidFunction.cpp\
+				LuaFunction.cpp
 
 OBJ_TEST	=	$(SRC_TEST:.cpp=.o)
 

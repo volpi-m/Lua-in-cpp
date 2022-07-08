@@ -29,10 +29,10 @@ int main()
         //l.call("hello");
     }
 
-    VoidFunction<const char *> greets(l, "greets");
-    greets("Gandalf");
+    LuaFunction<void(const char *)> greets(l, "greets");
+    greets("Frodo");
 
-    VoidFunction<const char *, lua_Integer>printBoth(l, "printBoth");
+    LuaFunction<void(const char *, lua_Integer)> printBoth(l, "printBoth");
     printBoth("Nope", 42);
 
     LuaFunction<lua_Integer(lua_Integer, lua_Integer)> addF(l, "add");
