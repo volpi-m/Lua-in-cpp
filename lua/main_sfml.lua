@@ -6,11 +6,11 @@ function main()
    window.setFramerateLimit(w, 10)
    while window.isOpen(w) == 1 do
       while window.pollEvent(w, evt) do
-         if sfml.isKeyPressed(keys.escape) or sfml.getEventType(evt) == event.Closed then
+         if sfml.isKeyPressed(keys.escape) or sfml.getEventType(evt) == event.closed then
             window.close(w)
          end
       end
-      window.clear(w, color.Blue)
+      window.clear(w, color.blue)
       window.display(w)
    end
    window.destroy(w)

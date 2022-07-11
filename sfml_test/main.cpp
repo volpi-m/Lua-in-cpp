@@ -1,12 +1,12 @@
 #include <string>
 #include <iostream>
-//#include "Lua.hpp"
-#include "newLua.hpp"
+
+#include "../src/LuaInCpp.hpp"
 #include "Window.hpp"
 
 extern "C"
 {
-    /*int createEvent(lua_State *l)
+    int createEvent(lua_State *l)
     {
         sfEvent *evt = new sfEvent();
 
@@ -53,29 +53,7 @@ extern "C"
         lua_pushboolean(l, sfKeyboard_isKeyPressed(key));
 
         return 1;
-    }*/
-}
-
-int fun1(lua_State *l)
-{
-    std::cout << "Hello World" << std::endl;
-    return 0;
-}
-
-int fun2(lua_State *l)
-{
-    int n = lua_gettop(l);
-
-    int n1 = lua_tointeger(l, 1);
-    int n2 = lua_tointeger(l, 2);
-    std::cout << n1 + n2 << std::endl;
-    return 0;
-}
-
-int fun3(lua_State *l)
-{
-    lua_pushnumber(l, 1);
-    return 1;
+    }
 }
 
 void printcolor(sfColor c)
@@ -84,20 +62,7 @@ void printcolor(sfColor c)
 }
 
 int main()
-{/*
-    Lua lua("example.lua");
-    FunctionInfo f1(1, {}, "greets");
-    lua.call(f1, "Frodo");
-
-    std::vector<std::string> returnTypes{"x"};
-    FunctionInfo f2(2, returnTypes, "add");
-    std::vector<std::any> ret = lua.call(f2, 15, 42);
- 
-    std::cout << "15 + 42 = " << std::any_cast<long long>(ret[0]) << std::endl;*/
-
-    //lua_State *state = luaL_newstate();
-    //luaL_openlibs(state);
-
+{
     /*const luaL_Reg window[] = {
         { "create", &createWindow },
         { "clear", &clearWindow },
@@ -177,113 +142,71 @@ int main()
 
     Lua l;
     l.openLibs();
-    // l.addTable<sfColor>("color", colors);
-    // l.addTable<lua_Integer>("keys", keys);
-    // l.addTable<lua_Integer>("event", eventType);
-    // l.registerModule("sfml", sfml);
-    // l.registerModule("window", window);
-    if (l.loadFile("lua/test.lua"))
-        l.callLuaFunction("main");
 
-    /*lua_createtable(state, 0, 1);
-    lua_pushinteger(state, sfEvtClosed);
-    lua_setfield(state, -2, "sfEvtClosed");
-    lua_setglobal(state, "eventType");
+    l.add("closed", (lua_Integer) sfEvtClosed, "event");
+    l.add("resized", (lua_Integer) sfEvtResized, "event");
+    l.add("lostFocus", (lua_Integer) sfEvtLostFocus, "event");
+    l.add("gainedFocus", (lua_Integer) sfEvtGainedFocus, "event");
+    l.add("textEtered", (lua_Integer) sfEvtTextEntered, "event");
+    l.add("keyPressed", (lua_Integer) sfEvtKeyPressed, "event");
+    l.add("keyReleased", (lua_Integer) sfEvtKeyReleased, "event");
+    l.add("mouseWheelMoved", (lua_Integer) sfEvtMouseWheelMoved, "event");
+    l.add("mouseWheelScrolled", (lua_Integer) sfEvtMouseWheelScrolled, "event");
+    l.add("mouseButtonPressed", (lua_Integer) sfEvtMouseButtonPressed, "event");
+    l.add("mouseButtonReleased", (lua_Integer) sfEvtMouseButtonReleased, "event");
+    l.add("mouseMoved", (lua_Integer) sfEvtMouseMoved, "event");
+    l.add("mouseEntered", (lua_Integer) sfEvtMouseEntered, "event");
+    l.add("mouseLeft", (lua_Integer) sfEvtMouseLeft, "event");
+    l.add("joystickButtonPressed", (lua_Integer) sfEvtJoystickButtonPressed, "event");
+    l.add("joyStickButtonReleased", (lua_Integer) sfEvtJoystickButtonReleased, "event");
+    l.add("joystickMoved", (lua_Integer) sfEvtJoystickMoved, "event");
+    l.add("joyStickConnected", (lua_Integer) sfEvtJoystickConnected, "event");
+    l.add("joystickDisconnected", (lua_Integer) sfEvtJoystickDisconnected, "event");
+    l.add("touchBegan", (lua_Integer) sfEvtTouchBegan, "event");
+    l.add("touchMoved", (lua_Integer) sfEvtTouchMoved, "event");
+    l.add("touchEnded", (lua_Integer) sfEvtTouchEnded, "event");
+    l.add("sensorChanged", (lua_Integer) sfEvtSensorChanged, "event");
+    l.add("count", (lua_Integer) sfEvtCount, "event");
 
+    l.add("escape", (lua_Integer) sfKeyEscape, "keys");
 
+    l.add("black", (void *) &sfBlack, "color");
+    l.add("white", (void *) &sfWhite, "color");
+    l.add("red", (void *) &sfRed, "color");
+    l.add("green", (void *) &sfGreen, "color");
+    l.add("blue", (void *) &sfBlue, "color");
+    l.add("yellow", (void *) &sfYellow, "color");
+    l.add("magenta", (void *) &sfMagenta, "color");
+    l.add("cyan", (void *) &sfCyan, "color");
+    l.add("transparent", (void *) &sfTransparent, "color");
 
-    lua_createtable(state, 0, 1);
-    lua_pushlightuserdata(state, &sfWhite);
-    lua_setfield(state, -2, "White");
-    lua_pushlightuserdata(state, &sfBlack);
-    lua_setfield(state, -2, "Black");
-    lua_pushlightuserdata(state, &sfRed);
-    lua_setfield(state, -2, "Red");
-    lua_pushlightuserdata(state, &sfGreen);
-    lua_setfield(state, -2, "Green");
-    lua_pushlightuserdata(state, &sfBlue);
-    lua_setfield(state, -2, "Blue");
-    lua_pushlightuserdata(state, &sfYellow);
-    lua_setfield(state, -2, "Yellow");
-    lua_pushlightuserdata(state, &sfMagenta);
-    lua_setfield(state, -2, "Magenta");
-    lua_pushlightuserdata(state, &sfCyan);
-    lua_setfield(state, -2, "Cyan");
-    lua_pushlightuserdata(state, &sfTransparent);
-    lua_setfield(state, -2, "Transparent");
-    lua_setglobal(state, "color");
+    l.add("createEvent", createEvent, "sfml");
+    l.add("getEventType", getEventType, "sfml");
+    l.add("destroyEvent", destroyEvent, "sfml");
+    l.add("isKeyPressed", isKeyPressed, "sfml");
 
-    lua_getglobal(state, "sfml");
-    if (!lua_istable(state, -1)) {
-        lua_newtable(state);
-    }
-    luaL_setfuncs(state, sfml, 0);
-    lua_setglobal(state, "sfml");
-    luaL_dofile(state, "example.lua");
+    l.add("create", &createWindow, "window");
+    l.add("clear", &clearWindow, "window");
+    l.add("isOpen", &isWindowOpen, "window");
+    l.add("display", &displayWindow, "window");
+    l.add("pollEvent", &pollEvent, "window");
+    l.add("waitEvent", &waitEvent, "window");
+    l.add("close", &closeWindow, "window");
+    l.add("destroy", &destroyWindow, "window");
+    l.add("setSize", &setSize, "window");
+    l.add("setTitle", &setTitle, "window");
+    l.add("setUnicodeTitle", &setUnicodeTitle, "window");
+    l.add("setIcon", &setIcon, "window");
+    l.add("setVisible", &setVisible, "window");
+    l.add("setVerticalSyncEnabled", &setVerticalSyncEnabled, "window");
+    l.add("setMouseCursorVisible", &setMouseCursorVisible, "window");
+    l.add("setMouseCursorGrabbed", &setMouseCursorGrabbed, "window");
+    l.add("setKeyRepeatEnabled", &setKeyRepeatEnabled, "window");
+    l.add("setFramerateLimit", &setFramerateLimit, "window");
+    l.add("setJoystickThreshold", &setJoystickThreshold, "window");
 
-    lua_getglobal(state, "window");
-    lua_call(state, 0, 0);
+    if (l.loadFile("../lua/main_sfml.lua"))
+        l.call("main");
 
-
-    /*printcolor(sfBlack);
-    printcolor(sfWhite);
-    printcolor(sfRed);
-    printcolor(sfGreen);
-    printcolor(sfBlue);
-    printcolor(sfYellow);
-    printcolor(sfMagenta);
-    printcolor(sfCyan);
-    printcolor(sfTransparent);*/
-
-    /*
-
-    /// Prepare C functions to be added to Lua
-    const luaL_Reg functions[] = {
-        {"yeet", &yeet},
-        {NULL, NULL}
-    };
-
-    /// Add C functions to Lua via a module called "ouep"
-    lua_getglobal(state, "ouep");
-    if (!lua_istable(state, -1)) {
-        lua_newtable(state);
-    }
-    luaL_setfuncs(state, functions, 0);
-    lua_setglobal(state, "ouep");
-    luaL_dostring(state, "ouep.yeet()");*/
-
-    /// Setup one C function alone to be called directly via its name
-    /*lua_pushcfunction(state, &sum);
-    lua_setglobal(state, "sum");
-    lua_pushcfunction(state, &yeet);
-    lua_setglobal(state, "yeet");
-    luaL_dostring(state, "print(sum(1, 2, 3))");*/
-
-/*
-    /// Open a lua file with a call tu a C function that was added just above
-    luaL_dofile(state, "example.lua");
-    lua_getglobal(state, "greets");
-    lua_pushliteral(state, "Frodo");
-    lua_call(state, 1, 0);
-
-    /// A string to be interperted as Lua
-    //luaL_dostring(state, "print('nope')");
-    */
-
-    /*
-
-    Lua lua("example.lua");
-    lua.loadStandardLibraries();
-    lua.script("print('hello world')");
-
-    lua.addFunction("un nom", [une fonction en C]);
-    lua.call<type(type)>([fonction en lua]);
-
-    on veut lancer des fonctions lua en C et récupérer les valeurs de retour
-    créer des fonctions C dans le contexte lua et elles sont exécutable depuis lua
-    mettre des variables globales entre lua et C
-    exécuter du code lua sous forme de string en C
-
-    */
-   //lua_close(state);
+    return 0;
 }

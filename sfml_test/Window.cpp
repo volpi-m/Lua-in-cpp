@@ -120,7 +120,7 @@ int destroyWindow(lua_State *l)
     return 0;
 }
 
-int getPosition(lua_State *l)
+/*int getPosition(lua_State *l)
 {
     int n = lua_gettop(l);
 
@@ -133,7 +133,7 @@ int getPosition(lua_State *l)
 
     lua_pushlightuserdata(l, pos);
     return 1;
-}
+}*/
 
 int setSize(lua_State *l)
 {
@@ -302,6 +302,3 @@ int setJoystickThreshold(lua_State *l)
     sfRenderWindow_setJoystickThreshold(w, threshold);
     return 0;
 }
-
-/*
-*/
