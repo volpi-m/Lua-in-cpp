@@ -1,15 +1,3 @@
-function greets(name)
-   print("Hello " .. name)
-   --print(sum(1, 2, 3))
-
-   a = {1, 2, 3}
-   print(a)
-end
-
-function add(a, b)
-   return a + b
-end
-
 function main()
    local w = window.create("OUAIS")
    local evt = sfml.createEvent()
