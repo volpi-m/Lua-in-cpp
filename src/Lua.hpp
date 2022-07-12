@@ -21,6 +21,8 @@ public:
     bool loadFile(const std::string &); // load a .lua file
     bool loadScript(const std::string &) const; // load a string of lua
 
+    // Todo: registerModule to register a bunch of functions or values in one go
+
     void add(const std::string &, lua_CFunction, const std::string & = "");
     void add(const std::string &, lua_Number, const std::string & = "");
     void add(const std::string &, lua_Integer, const std::string & = "");
