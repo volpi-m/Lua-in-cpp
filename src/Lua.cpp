@@ -43,6 +43,16 @@ bool Lua::loadScript(const std::string &script) const
     return true;
 }
 
+void Lua::registerModule(const std::string &modName, const luaL_Reg *functions) const
+{
+    lua_getglobal(_state, modName.c_str());
+    if (!lua_istable(_state, -1)) {
+        lua_newtable(_state);
+    }
+    luaL_setfuncs(_state, functions, 0);
+    lua_setglobal(_state, modName.c_str());
+}
+
 void Lua::add(const std::string &name, lua_CFunction f, const std::string &modName)
 {
     if (modName == "") {
@@ -54,8 +64,7 @@ void Lua::add(const std::string &name, lua_CFunction f, const std::string &modNa
             lua_newtable(_state);
         lua_pushstring(_state, name.c_str()); // index of the value in the table
         lua_pushcfunction(_state, f); // value to be set
-        lua_settable(_state, -3);
-        // modName.name = f
+        lua_settable(_state, -3); // modName.name = f
         lua_setglobal(_state, modName.c_str()); // say that the table is now an accessible variable
     }
 }
