@@ -1,8 +1,8 @@
 # Lua in C++
 
-## An encapsulation of Lua's API in C++.
+## A simple bridge between Lua's API and C++.
 
-This repository is very much work in progress, it is currently being reworked. However, you can find classes to use Lua's API in C++ and use it to script things into your C++ programs.
+This repository is still work in progress but starts to be useable. You can find classes to use Lua's API in C++ and use it to script things into your C++ programs.
 
 This has been tested with C++ 20 on g++, Lua 5.4 and Ubuntu 21.10.
 
