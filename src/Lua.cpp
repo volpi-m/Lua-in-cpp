@@ -37,7 +37,7 @@ bool Lua::loadFile(const std::string &filename)
 bool Lua::loadScript(const std::string &script) const
 {
     if (luaL_dostring(_state, script.c_str()) != LUA_OK) {
-        std::cerr << lua_tostring(_state, -1) << std::endl;;
+        std::cerr << lua_tostring(_state, -1) << std::endl;
         return false;
     }
     return true;

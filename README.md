@@ -8,7 +8,7 @@ This has been tested with C++ 20 on g++, Lua 5.4 and Ubuntu 21.10.
 
 ## Installation
 
-Clone this repository and compile the static library (no shared library, see [this](#known-issues)), then you're free to compile it with your program.
+Clone this repository and compile the static or shared library (see [this](#known-issues)), then you're free to compile it with your program.
 
 ## How to use
 
@@ -66,9 +66,14 @@ This library is able to do:
 
 ## Known issues
 
+### Why can't I compile in shared library ?
+
+To compile this project into a shared library, you must also have a shared library of lua itself. For that, you can go [here](https://www.lua.org/ftp/) to download the source code of your favorite version of lua anc tweak the `Makefile` in the `src` folder to create a `liblua.so` and place it next to the `liblua.a` already installed on your system
+
+### Other issues
+
 If you have any idea on how to solve these problems or you want to contribute, please open an issue, I'll be happy to discuss it with you
 
-- Do not compile to shared library yet
 - Can't call lua functions with multiple return values
 
 ## Support me

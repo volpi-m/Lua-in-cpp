@@ -1,49 +1,56 @@
-BIN_TEST	=	yeet
+BIN_TEST	=		yeet
 
-SHARED_NAME	=	libluaincpp.so
+SHARED_NAME	=		libluaincpp.so
 
-STATIC_NAME	=	libluaincpp.a
+STATIC_NAME	=		libluaincpp.a
 
-SRC_TEST	=	src/main.cpp\
-				src/Lua.cpp\
-				src/BaseFunction.cpp\
-				src/VoidFunction.cpp\
-				src/NonVoidFunction.cpp\
-				src/LuaFunction.cpp
+SRC_TEST	=		src/main.cpp\
+					src/Lua.cpp\
+					src/BaseFunction.cpp\
+					src/VoidFunction.cpp\
+					src/NonVoidFunction.cpp\
+					src/LuaFunction.cpp
 
-OBJ_TEST	=	$(SRC_TEST:.cpp=.o)
+OBJ_TEST	=		$(SRC_TEST:.cpp=.o)
 
-SRC			=	src/Lua.cpp\
-				src/BaseFunction.cpp\
-				src/VoidFunction.cpp\
-				src/NonVoidFunction.cpp\
-				src/LuaFunction.cpp
+SRC			=		src/Lua.cpp\
+					src/BaseFunction.cpp\
+					src/VoidFunction.cpp\
+					src/NonVoidFunction.cpp\
+					src/LuaFunction.cpp
 
-OBJ			=	$(SRC:.cpp=.o)
+OBJ			=		$(SRC:.cpp=.o)
 
-CXXFLAGS	=	-W -Wall -Wextra --std=c++20
+OBJ_SHARED	=		$(SRC:.cpp=_shared.o)
 
-LDFLAGS		=	-llua -ldl
+CXXFLAGS	=		-W -Wall -Wextra --std=c++20
 
-all:		yeet
+LDFLAGS		=		-llua -ldl
 
-yeet:		$(OBJ_TEST)
-			g++ -o $(BIN_TEST) $(OBJ_TEST) $(LDFLAGS)
+all:				$(BIN_TEST) $(SHARED_NAME) $(STATIC_NAME)
 
-shared:		$(OBJ)
-			g++ -shared -o $(SHARED_NAME) $(OBJ) $(LDFLAGS)
+%_shared.o:			%.cpp
+					g++ $(CXXFLAGS) -fPIC -c -o $@ $<
 
-static:		$(OBJ)
-			ar rc $(STATIC_NAME) $(OBJ)
+$(BIN_TEST):		$(OBJ_TEST)
+					g++ -o $@ $< $(LDFLAGS)
+
+$(SHARED_NAME):		$(OBJ_SHARED)
+					g++ -shared -o $@ $< $(LDFLAGS)
+
+$(STATIC_NAME):		$(OBJ)
+					ar rc $@ $<
 
 sfml:
 
 clean:
-			rm -rf $(OBJ_TEST)
+					rm -rf $(OBJ_TEST)
+					rm -rf $(OBJ)
+					rm -rf $(OBJ_SHARED)
 
-fclean:		clean
-			rm -rf $(BIN_TEST)
-			rm -rf $(SHARED_NAME)
-			rm -rf $(STATIC_NAME)
+fclean:				clean
+					rm -rf $(BIN_TEST)
+					rm -rf $(SHARED_NAME)
+					rm -rf $(STATIC_NAME)
 
-re:			fclean yeet
+re:					fclean $(BIN_TEST)

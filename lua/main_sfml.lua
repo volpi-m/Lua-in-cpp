@@ -1,8 +1,6 @@
 function main()
    local w = window.create("OUAIS")
    local evt = sfml.createEvent()
-   local a = true
-   local count = 0
    window.setFramerateLimit(w, 10)
    while window.isOpen(w) == 1 do
       while window.pollEvent(w, evt) do
