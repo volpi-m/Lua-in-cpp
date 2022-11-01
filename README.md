@@ -68,7 +68,7 @@ This library is able to do:
 
 ### Why can't I compile in shared library ?
 
-To compile this project into a shared library, you must also have a shared library of lua itself. For that, you can go [here](https://www.lua.org/ftp/) to download the source code of your favorite version of lua anc tweak the `Makefile` in the `src` folder to create a `liblua.so` and place it next to the `liblua.a` already installed on your system
+To compile this project into a shared library, you must also have a shared library of lua itself. For that, you can go [here](https://www.lua.org/ftp/) to download the source code of your favorite version of lua and tweak the `Makefile` in the `src` folder to create a `liblua.so` and place it next to the `liblua.a` already installed on your system
 
 ### Other issues
 
