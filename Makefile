@@ -1,5 +1,7 @@
 BIN_TEST	=		yeet
 
+EXAMPLE		=		test
+
 SHARED_NAME	=		libluaincpp.so
 
 STATIC_NAME	=		libluaincpp.a
@@ -33,13 +35,17 @@ all:				$(BIN_TEST) $(SHARED_NAME) $(STATIC_NAME)
 					g++ $(CXXFLAGS) -fPIC -c -o $@ $<
 
 $(BIN_TEST):		$(OBJ_TEST)
-					g++ -o $@ $< $(LDFLAGS)
+					g++ -o $@ $(OBJ_TEST) $(LDFLAGS)
 
 $(SHARED_NAME):		$(OBJ_SHARED)
-					g++ -shared -o $@ $< $(LDFLAGS)
+					g++ -shared -o $@ $(OBJ_SHARED) $(LDFLAGS)
 
 $(STATIC_NAME):		$(OBJ)
-					ar rc $@ $<
+					ar rc $@ $(OBJ)
+
+
+$(EXAMPLE):			$(STATIC_NAME)
+					g++ -o $(EXAMPLE) example/main.cpp -L. -lluaincpp -llua -iquote src
 
 sfml:
 
@@ -52,5 +58,6 @@ fclean:				clean
 					rm -rf $(BIN_TEST)
 					rm -rf $(SHARED_NAME)
 					rm -rf $(STATIC_NAME)
+					rm -rf $(EXAMPLE)
 
 re:					fclean $(BIN_TEST)

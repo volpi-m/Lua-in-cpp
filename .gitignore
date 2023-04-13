@@ -32,7 +32,6 @@
 *.app
 
 # Others
-example
 .vscode/
 
 yeet

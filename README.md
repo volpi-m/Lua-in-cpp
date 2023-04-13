@@ -12,7 +12,7 @@ Clone this repository and compile the static or shared library (see [this](#know
 
 ## How to use
 
-Here is a a lua file and a C++ file showing you some of the features that this library does:
+Here is a a Lua file and a C++ file showing you some of the features that this library does:
 
 ```lua
 function greets(name)
@@ -27,10 +27,23 @@ end
 ```cpp
 #include "LuaInCpp.hpp"
 
-int add(int a, int b)
+// To call a C++ function in Lua, you have to use the Lua API
+// Here's an example:
+int add(lua_State *l)
 {
+    int n = lua_gettop(l); // get the number of arguments
+
+    if (n != 2) {
+        lua_pushliteral(l, "bad number of arguments");
+        lua_error(l);
+    }
+
+    int a = lua_tointeger(l, 1); // get first argument
+    int b = lua_tointeger(l, 2); // get second arument
+
     std::cout << "[C++] " << a << " + " << b << std::endl;
-    return a + b;
+    lua_pushinteger(l, a + b); // the return value
+    return 1; // number of argument returned
 }
 
 int main()
@@ -47,6 +60,11 @@ int main()
         l.call("main");
     }
 }
+```
+
+Compile like this:
+```sh
+make test
 ```
 
 And the output will be:
