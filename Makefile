@@ -23,9 +23,13 @@ SRC			=		src/Lua.cpp\
 
 OBJ			=		$(SRC:.cpp=.o)
 
+SRC_EXAMPLE	=		example/main.cpp
+
+OBJ_EXAMPLE	=		$(SRC_EXAMPLE:.cpp=.o)
+
 OBJ_SHARED	=		$(SRC:.cpp=_shared.o)
 
-CXXFLAGS	=		-W -Wall -Wextra --std=c++20
+CXXFLAGS	=		-W -Wall -Wextra --std=c++20 -iquote src
 
 LDFLAGS		=		-llua -ldl
 
@@ -44,8 +48,8 @@ $(STATIC_NAME):		$(OBJ)
 					ar rc $@ $(OBJ)
 
 
-$(EXAMPLE):			$(STATIC_NAME)
-					g++ -o $(EXAMPLE) example/main.cpp -L. -lluaincpp -llua -iquote src
+$(EXAMPLE):			$(STATIC_NAME) $(OBJ_EXAMPLE)
+					g++ -o $(EXAMPLE) $(OBJ_EXAMPLE) -Wall -Wextra -L. -lluaincpp -llua
 
 sfml:
 
