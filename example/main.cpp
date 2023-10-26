@@ -1,5 +1,4 @@
-//#include "Lua.hpp"
-//#include "LuaFunction.hpp"
+#include <string.h>
 #include "LuaInCpp.hpp"
 
 int add(lua_State *l)
@@ -28,7 +27,27 @@ int main()
 
     if (l.loadFile("example/test.lua")) {
         LuaFunction<void(const char *)> greets(l, "greets");
-        greets("Frodo");
+        char *s = strdup("Frodo");
+        greets(s);
+
+        LuaFunction<void(int)> my_sin(l, "my_sin_int");
+        long a = 0;
+        my_sin(a);
+
+        LuaFunction<void(double)> my_sin_float(l, "my_sin_float");
+        my_sin_float(2.3);
+
+        LuaFunction<void(bool)> is_true(l, "is_true");
+        is_true(false);
+
+        LuaFunction<void(double, int)> both_sin(l, "both_sin");
+        both_sin(2.3, 4);
+
+        std::cout << std::endl;
+
+        LuaFunction<int(const char *, bool, double, int)> all(l, "all");
+        int b = all(s, false, 2.3, 4);
+        std::cout << b << std::endl;
 
         l.call("main");
     }

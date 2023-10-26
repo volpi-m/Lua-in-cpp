@@ -35,12 +35,12 @@ public:
 private:
     friend lua_State *getState(Lua &l) { return l._state; }
 
-    friend void pushOnStack(Lua &l, lua_Integer arg) { lua_pushinteger(l._state, arg); }
-    friend void pushOnStack(Lua &l, lua_Number arg) { lua_pushnumber(l._state, arg); }
-    friend void pushOnStack(Lua &l, bool arg) { lua_pushboolean(l._state, arg); }
-    friend void pushOnStack(Lua &l, const char *arg) { lua_pushstring(l._state, arg); }
-    friend void pushOnStack(Lua &l, void *arg) { lua_pushlightuserdata(l._state, arg); }
-    friend void pushOnStack(Lua &l) { lua_pushnil(l._state); }
+    // friend void pushOnStackInt(Lua &l, lua_Integer arg) { lua_pushinteger(l._state, arg); }
+    // friend void pushOnStackNum(Lua &l, lua_Number arg) { lua_pushnumber(l._state, arg); }
+    // friend void pushOnStackBool(Lua &l, bool arg) { lua_pushboolean(l._state, arg); }
+    // friend void pushOnStackString(Lua &l, const char *arg) { lua_pushstring(l._state, arg); }
+    // friend void pushOnStackPtr(Lua &l, void *arg) { lua_pushlightuserdata(l._state, arg); }
+    // friend void pushOnStackNil(Lua &l) { lua_pushnil(l._state); }
 
     lua_State *_state;
 };
