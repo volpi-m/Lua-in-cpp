@@ -4,24 +4,57 @@
 
 This repository is still work in progress but starts to be useable. You can find classes to use Lua's API in C++ and use it to script things into your C++ programs.
 
-This has been tested with C++ 20 on g++, Lua 5.4 and Ubuntu 21.10.
+This has been tested with C++ 20 on g++, Lua 5.4 and Ubuntu 22.04.
 
 ## Installation
 
-Clone this repository and compile the static or shared library (see [this](#known-issues)), then you're free to compile it with your program.
+Clone this repository and compile the static or shared library (see [this](#known-issues)) like this:
+
+```sh
+make libluaincpp.a
+make libluaincpp.so
+```
+
+Then you're free to use and link it with your program.
 
 ## How to use
 
-Here is a a Lua file and a C++ file showing you some of the features that this library does:
+Here is a a Lua file and a C++ file showing you some of the features that this library does, you can find these files in the `example` folder:
 
 ```lua
 function greets(name)
     print("[Lua] Hello "..name)
 end
 
-function main()
-    print(mymath.add(1, 2))
+function my_sin_int(x)
+    print("[Lua] "..math.sin(x))
 end
+
+function is_true(b)
+    print("[Lua] ", b == true)
+end
+
+function my_sin_float(x)
+    print("[Lua] "..math.sin(x))
+end
+
+function both_sin(x1, x2)
+    my_sin_float(x1)
+    my_sin_int(x2)
+end
+
+function all(name, b, f, i)
+    greets(name)
+    is_true(b)
+    my_sin_float(f)
+    my_sin_int(i)
+    return 1234
+end
+
+function add_test()
+    print("[Lua] "..mymath.add(1, 2))
+end
+
 ```
 
 ```cpp
@@ -92,8 +125,20 @@ make test
 And the output will be:
 ```
 [Lua] Hello Frodo
+[Lua] 0.0
+[Lua] 0.74570521217672
+[Lua] 	false
+[Lua] 0.74570521217672
+[Lua] -0.75680249530793
+
+[Lua] Hello Frodo
+[Lua] 	false
+[Lua] 0.74570521217672
+[Lua] -0.75680249530793
+1234
+
 [C++] 1 + 2
-3
+[Lua] 3
 ```
 
 ## What is currently being done ?
@@ -106,15 +151,25 @@ This library is able to do:
 
 ## Known issues
 
-### Why can't I compile in shared library ?
+### Why can't I compile it in a shared library ?
 
 To compile this project into a shared library, you must also have a shared library of lua itself. For that, you can go [here](https://www.lua.org/ftp/) to download the source code of your favorite version of lua and tweak the `Makefile` in the `src` folder to create a `liblua.so` and place it next to the `liblua.a` already installed on your system
+
+Then you can have this library in a shared format like that:
+```sh
+make libluaincpp.so
+```
+
+### What is that `sfml` folder ?
+
+Just ignore it, I'm trying to make an sfml binding in Lua
 
 ### Other issues
 
 If you have any idea on how to solve these problems or you want to contribute, please open an issue, I'll be happy to discuss it with you
 
 - Can't call lua functions with multiple return values
+- The library isn't installed on the machine for now, I believe it's only a few Makefile changes and it would be okay
 
 ## Support me
 
