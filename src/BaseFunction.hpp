@@ -90,6 +90,11 @@ protected:
         lua_call(getState(_inst), _nbArg, 1);
     }
 
+    void intern()
+    {
+        lua_call(getState(_inst), 0, 0);
+    }
+
     Lua &_inst;
     const std::string _fname;
     int _nbArg;

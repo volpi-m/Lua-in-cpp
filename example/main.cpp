@@ -49,6 +49,11 @@ int main()
         int b = all(s, false, 2.3, 4);
         std::cout << b << std::endl;
 
-        l.call("main");
+        std::cout << std::endl;
+
+        LuaFunction<void(void)> add_test(l, "add_test");
+        add_test();
+
+        free(s);
     }
 }

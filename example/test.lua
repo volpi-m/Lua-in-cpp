@@ -11,7 +11,7 @@ function is_true(b)
 end
 
 function my_sin_float(x)
-    print(math.sin(x))
+    print("[Lua] "..math.sin(x))
 end
 
 function both_sin(x1, x2)
@@ -27,6 +27,6 @@ function all(name, b, f, i)
     return 1234
 end
 
-function main()
-    print(mymath.add(1, 2))
+function add_test()
+    print("[Lua] "..mymath.add(1, 2))
 end
