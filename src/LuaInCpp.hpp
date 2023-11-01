@@ -1,4 +1,4 @@
 #pragma once
 
-#include "Lua.hpp"
-#include "LuaFunction.hpp"
+#include "Lua-in-cpp/Lua.hpp"
+#include "Lua-in-cpp/LuaFunction.hpp"

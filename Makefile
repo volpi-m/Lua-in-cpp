@@ -4,11 +4,14 @@ SHARED_NAME	=		libluaincpp.so
 
 STATIC_NAME	=		libluaincpp.a
 
-SRC			=		src/Lua.cpp\
-					src/BaseFunction.cpp\
-					src/VoidFunction.cpp\
-					src/NonVoidFunction.cpp\
-					src/LuaFunction.cpp
+HEADERS		=		src/LuaInCpp.hpp\
+					src/Lua-in-cpp/
+
+SRC			=		src/Lua-in-cpp/Lua.cpp\
+					src/Lua-in-cpp/BaseFunction.cpp\
+					src/Lua-in-cpp/VoidFunction.cpp\
+					src/Lua-in-cpp/NonVoidFunction.cpp\
+					src/Lua-in-cpp/LuaFunction.cpp
 
 OBJ			=		$(SRC:.cpp=.o)
 
@@ -33,11 +36,17 @@ $(SHARED_NAME):		$(OBJ_SHARED)
 $(STATIC_NAME):		$(OBJ)
 					ar rc $@ $(OBJ)
 
-
 $(EXAMPLE):			$(SHARED_NAME) $(OBJ_EXAMPLE)
 					g++ -o $(EXAMPLE) $(OBJ_EXAMPLE) -Wall -Wextra -L. -lluaincpp -llua
 
-sfml:
+install:			$(STATIC_NAME)
+					cp -r $(HEADERS) /usr/local/include/
+					cp $(STATIC_NAME) /usr/local/lib
+
+uninstall:
+					rm -rf /usr/local/include/LuaInCpp.hpp
+					rm -rf /usr/local/include/Lua-in-cpp
+					rm -rf /usr/local/lib/$(STATIC_NAME)
 
 clean:
 					rm -rf $(OBJ)
