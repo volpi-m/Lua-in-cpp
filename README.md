@@ -160,10 +160,6 @@ Then you can have this library in a shared format like that:
 make libluaincpp.so
 ```
 
-### What is that `sfml` folder ?
-
-Just ignore it, I'm trying to make an sfml binding in Lua
-
 ### Other issues
 
 If you have any idea on how to solve these problems or you want to contribute, please open an issue, I'll be happy to discuss it with you

@@ -42,6 +42,7 @@ $(EXAMPLE):			$(SHARED_NAME) $(OBJ_EXAMPLE)
 install:			$(STATIC_NAME)
 					cp -r $(HEADERS) /usr/local/include/
 					cp $(STATIC_NAME) /usr/local/lib
+					ldconfig
 
 uninstall:
 					rm -rf /usr/local/include/LuaInCpp.hpp
